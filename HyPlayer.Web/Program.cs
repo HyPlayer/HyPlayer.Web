@@ -5,7 +5,9 @@ using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using HyPlayer.Web.DbContexts;
 using HyPlayer.Web.Extensions;
+using HyPlayer.Web.Implementations;
 using HyPlayer.Web.Infrastructure;
+using HyPlayer.Web.Infrastructure.Interfaces;
 using HyPlayer.Web.Repositories;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,7 @@ builder.Services.AddDbContext<SqliteDbContext>(optionsBuilder =>
         });
 });
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(SqliteRepository<,>));
+builder.Services.AddSingleton<IEmailService, SmtpMailService>();
 builder.Services.AddFluentValidation();
 builder.Services.AddEndpointsByAssembly(Assembly.GetExecutingAssembly());
 

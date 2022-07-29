@@ -14,16 +14,16 @@ public class AppCenterDistributor : IAppDistributor
         _httpClient.DefaultRequestHeaders.Add("X-API-Token",
             configuration.GetValue<string>("Distributors:AppCenter:UserApiToken"));
         _httpClient.BaseAddress = new Uri("https://api.appcenter.ms/");
-        _ownerName = configuration.GetValue<string>("Distributors:AppCenter:OwnerName");
-        _appName = configuration.GetValue<string>("Distributors:AppCenter:AppName");
+        _ownerName = configuration.GetValue<string>("Distributors:AppCenter:OwnerName")!;
+        _appName = configuration.GetValue<string>("Distributors:AppCenter:AppName")!;
     }
 
     public List<ChannelType> BindingChannels => new()
         { ChannelType.AppCenterRelease, ChannelType.AppCenterCanary };
 
     private readonly HttpClient _httpClient;
-    private readonly string? _ownerName;
-    private readonly string? _appName;
+    private readonly string _ownerName;
+    private readonly string _appName;
     private readonly ILogger<AppCenterDistributor> _logger;
 
     private Dictionary<ChannelType, string> ChannelTypeToName => new()
@@ -32,7 +32,7 @@ public class AppCenterDistributor : IAppDistributor
         { ChannelType.AppCenterCanary, "Canary" }
     };
 
-    class ErrorResponse
+    private class ErrorResponse
     {
         public class ErrorMessage
         {
@@ -57,7 +57,7 @@ public class AppCenterDistributor : IAppDistributor
     }
     
     
-    public async Task<bool> AddDistributionMember(User user, CancellationToken cancellationToken = default)
+    public async Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
     {
         var result = await _httpClient.PostAsJsonAsync(
             $"/v0.1/apps/{_ownerName}/{_appName}/distribution_groups/{ChannelTypeToName[user.ChannelType]}/members",
@@ -76,7 +76,7 @@ public class AppCenterDistributor : IAppDistributor
         return false;
     }
 
-    public async Task<LatestApplicationUpdate?> GetLatestUpdate(ChannelType channelType,CancellationToken cancellationToken = default)
+    public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,CancellationToken cancellationToken = default)
     {
         var result =
             await _httpClient.GetAsync(
@@ -86,9 +86,11 @@ public class AppCenterDistributor : IAppDistributor
         var latestReleaseInfo = releaseInfos?[0];
         return new LatestApplicationUpdate
         {
-            Version = latestReleaseInfo?.Version,
+            Version = latestReleaseInfo?.Version!,
             Date = latestReleaseInfo?.UploadDate ?? DateTime.MinValue,
-            Mandatory = latestReleaseInfo?.IsMandatory ?? false
+            Mandatory = latestReleaseInfo?.IsMandatory ?? false,
+            ViewUrl = "https://install.appcenter.ms/users/kengwang/apps/HyPlayer",
+            UpdateLog = "请前往网页查看",
         };
     }
 }

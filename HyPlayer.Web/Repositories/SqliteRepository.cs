@@ -1,5 +1,6 @@
 ﻿using HyPlayer.Web.DbContexts;
 using HyPlayer.Web.Infrastructure;
+using HyPlayer.Web.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HyPlayer.Web.Repositories;

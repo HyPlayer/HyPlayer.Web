@@ -1,4 +1,4 @@
-﻿namespace HyPlayer.Web.Infrastructure;
+﻿namespace HyPlayer.Web.Infrastructure.Interfaces;
 
 public interface IRepository<TEntity, TId>
 {

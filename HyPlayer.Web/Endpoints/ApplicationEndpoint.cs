@@ -52,7 +52,7 @@ public class ApplicationEndpoint : IEndpoint
 
         var distributionAddResult = await (appDistributors
             .FirstOrDefault(x => x.BindingChannels.Contains(newUser.ChannelType))?
-            .AddDistributionMember(newUser, cancellationToken) ?? Task.FromResult(false));
+            .AddDistributionMemberAsync(newUser, cancellationToken) ?? Task.FromResult(false));
 
         if (!distributionAddResult)
         {
