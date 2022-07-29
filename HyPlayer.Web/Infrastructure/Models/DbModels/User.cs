@@ -14,6 +14,7 @@ public class User
     public ChannelType ChannelType { get; set; }
 }
 
+[Flags]
 public enum ChannelType
 {
     StoreRelease,

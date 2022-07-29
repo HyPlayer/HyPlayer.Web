@@ -9,14 +9,14 @@ public class MicrosoftStoreDistributor : IAppDistributor
     public List<ChannelType> BindingChannels => new()
         { ChannelType.StoreBeta, ChannelType.StoreRelease };
 
-    public async Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
+    public Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(true);
     }
 
-    public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType, CancellationToken cancellationToken = default)
+    public Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return Task.FromResult<LatestApplicationUpdate?>(null);
     }
 
 }

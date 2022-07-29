@@ -38,6 +38,7 @@ builder.Services.AddDbContext<SqliteDbContext>(optionsBuilder =>
 });
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(SqliteRepository<,>));
 builder.Services.AddSingleton<IEmailService, SmtpMailService>();
+builder.Services.AddSingleton<IAdminRepository, AdminConfigurationRepository>();
 builder.Services.AddFluentValidation();
 builder.Services.AddEndpointsByAssembly(Assembly.GetExecutingAssembly());
 

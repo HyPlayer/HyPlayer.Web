@@ -7,5 +7,5 @@ public interface IRepository<TEntity, TId>
     Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<bool> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
-    Task<IQueryable<TEntity>> GetQueryableEntities(CancellationToken cancellationToken = default);
+    Task<IQueryable<TEntity>> GetQueryableEntitiesAsync(CancellationToken cancellationToken = default);
 }

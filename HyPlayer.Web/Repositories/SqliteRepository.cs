@@ -47,7 +47,7 @@ public class SqliteRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
         return true;
     }
 
-    public Task<IQueryable<TEntity>> GetQueryableEntities(CancellationToken cancellationToken = default)
+    public Task<IQueryable<TEntity>> GetQueryableEntitiesAsync(CancellationToken cancellationToken = default)
     {
         return Task.FromResult(Table.AsQueryable());
     }

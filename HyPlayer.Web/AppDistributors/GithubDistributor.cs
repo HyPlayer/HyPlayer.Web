@@ -26,7 +26,7 @@ public class GithubDistributor : IAppDistributor
 
     private class GithubReleaseResponse
     {
-        [JsonPropertyName("name")] public string Name { get; set; }
+        [JsonPropertyName("name")] public required string Name { get; set; }
 
         [JsonPropertyName("html_url")] public required string HtmlUrl { get; set; }
 
