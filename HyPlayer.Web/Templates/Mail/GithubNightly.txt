@@ -1,0 +1,12 @@
+﻿Hi~ {USERNAME}
+
+感谢您注册 HyPlayer 内测
+
+我们在 Github 上将会发布每次 Commit 的编译内容, 由于可能不稳定, 暂不支持检测更新, 手动检查是否更新
+
+https://github.com/HyPlayer/HyPlayer/releases/azure-build
+
+顺颂
+时祺
+
+HyPlayer 团队

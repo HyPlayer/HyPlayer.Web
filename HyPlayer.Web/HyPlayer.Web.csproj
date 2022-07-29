@@ -28,4 +28,10 @@
       <Folder Include="wwwroot" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Templates\Mail\GithubNightly.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

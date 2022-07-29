@@ -15,9 +15,7 @@ using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File($"{Environment.CurrentDirectory}/log/log.log", rollingInterval: RollingInterval.Day)
-#if DEBUG
     .WriteTo.Console()
-#endif
     .CreateLogger();
 
 
@@ -39,12 +37,14 @@ builder.Services.AddDbContext<SqliteDbContext>(optionsBuilder =>
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(SqliteRepository<,>));
 builder.Services.AddSingleton<IEmailService, SmtpMailService>();
 builder.Services.AddSingleton<IAdminRepository, AdminConfigurationRepository>();
+builder.Services.AddSingleton<IEmailTemplateProvider, FileEmailTemplateProvider>();
 builder.Services.AddFluentValidation();
 builder.Services.AddEndpointsByAssembly(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
+app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseEndpoints();
 
-app.Run();
+app.Run("http://*:5898");

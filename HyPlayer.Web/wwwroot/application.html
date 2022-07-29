@@ -47,11 +47,11 @@
                     <div class="mdui-m-t-2">
                         <div class="mdui-col-md-2">更新通道</div>
                         <select class="mdui-col-md-10" v-model="data.channel" class="mdui-select" name="channel" mdui-select>
-                            <option value="0" disabled>Microsoft Store</option>
+                            <option value="0" disabled>Microsoft Store</option>                            
                             <option value="1" disabled>Microsoft Store (Beta 通道)</option>
-                            <option value="2">App Center (Release 通道)</option>
-                            <option value="3">App Center (Canary 通道)</option>
-                            <option value="4" disabled>Github Nightly</option>
+                            <option value="2">App Center (Canary 通道)</option>
+                            <option value="3">App Center (Release 通道)</option>
+                            <option value="4">Github Nightly</option>
                         </select>
                     </div>
 
@@ -85,10 +85,12 @@
                     username: "",
                     email: "",
                     contact: "",
-                    channel: 3
+                    channel: 2
                 },
                 submitApplication: function() {
                     this.isloading = true
+                    this.iserror = false
+                    this.issuccess = false
                     window.Vue = this
                     axios.post("/application", this.data).then(function(data) {
                             window.Vue.isloading = false

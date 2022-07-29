@@ -22,13 +22,11 @@ public class SmtpMailService : IEmailService
         _port = configuration.GetValue<int>("Smtp:Port");
         _from = configuration.GetValue<string>("Smtp:From");
         _useSsl = configuration.GetValue<bool>("Smtp:UseSsl");
-        _smtpClient = new SmtpClient
+        _smtpClient = new SmtpClient(_host,_port)
         {
             Credentials = new NetworkCredential(_username, _password),
-            EnableSsl = false,
-            Host = _host!,
-            Port = _port,
-            UseDefaultCredentials = false
+            EnableSsl = _useSsl,
+            DeliveryMethod = SmtpDeliveryMethod.Network
         };
     }
 
