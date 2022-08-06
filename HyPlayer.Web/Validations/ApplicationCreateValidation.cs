@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using HyPlayer.Web.Infrastructure.Models.Packages.RequestPackages;
+using HyPlayer.Web.Models.Packages;
 
 namespace HyPlayer.Web.Validations;
 
-public class ApplicationCreateValidation : AbstractValidator<ApplicationCreateRequest>
+public class ApplicationCreateValidation : AbstractValidator<UserCreateRequest>
 {
     public ApplicationCreateValidation()
     {

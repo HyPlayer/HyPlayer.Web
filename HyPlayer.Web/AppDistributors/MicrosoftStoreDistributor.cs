@@ -1,11 +1,13 @@
-﻿using HyPlayer.Web.Infrastructure.Interfaces;
-using HyPlayer.Web.Infrastructure.Models;
-using HyPlayer.Web.Infrastructure.Models.DbModels;
+﻿using HyPlayer.Web.Interfaces;
+using HyPlayer.Web.Models;
+using HyPlayer.Web.Models.DbModels;
 
 namespace HyPlayer.Web.AppDistributors;
 
 public class MicrosoftStoreDistributor : IAppDistributor
 {
+    public string Name => "MSStore";
+
     public List<ChannelType> BindingChannels => new()
         { ChannelType.StoreBeta, ChannelType.StoreRelease };
 

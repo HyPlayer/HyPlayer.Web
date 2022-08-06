@@ -1,5 +1,5 @@
-﻿using HyPlayer.Web.Infrastructure.Interfaces;
-using HyPlayer.Web.Infrastructure.Models;
+﻿using HyPlayer.Web.Interfaces;
+using HyPlayer.Web.Models;
 
 namespace HyPlayer.Web.Repositories;
 
@@ -12,13 +12,13 @@ public class AdminConfigurationRepository : IAdminRepository
         _administrators = configuration.GetSection("Administrators")!.Get<List<AdministratorModel>>()!;
     }
 
-    public async Task<List<AdministratorModel>> GetAdministratorsAsync()
+    public Task<List<AdministratorModel>> GetAdministratorsAsync()
     {
-        return _administrators;
+        return Task.FromResult(_administrators);
     }
 
-    public async Task<AdministratorModel?> GetAdministratorAsync(string name)
+    public Task<AdministratorModel?> GetAdministratorAsync(string name)
     {
-        return _administrators.FirstOrDefault(t=>t.Name == name);
+        return Task.FromResult(_administrators.FirstOrDefault(t=>t.Name == name));
     }
 }

@@ -1,6 +1,5 @@
 ﻿using HyPlayer.Web.DbContexts;
-using HyPlayer.Web.Infrastructure;
-using HyPlayer.Web.Infrastructure.Interfaces;
+using HyPlayer.Web.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HyPlayer.Web.Repositories;
@@ -22,7 +21,7 @@ public class SqliteRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
         return true;
     }
 
-    public async Task<TEntity?> GetById(TId id, CancellationToken cancellationToken = default)
+    public async Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
         return await Table.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
     }

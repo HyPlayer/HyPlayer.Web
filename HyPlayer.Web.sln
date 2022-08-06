@@ -2,6 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyPlayer.Web", "HyPlayer.Web\HyPlayer.Web.csproj", "{EB398AF7-3634-4D17-BD71-383548E91F50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyPlayer.Web.Tests", "HyPlayer.Web.Tests\HyPlayer.Web.Tests.csproj", "{067AB987-90F9-4876-9BE7-DFB27D1822AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{96F3F719-FB7B-4350-B7F0-1D76CF769210}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{93A98FCC-BECA-42C4-BAC6-8367B2880CFC}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "HyPlayer.Web.Frontend", "HyPlayer.Web.Frontend\HyPlayer.Web.Frontend.njsproj", "{9A2526BF-47A5-4764-85E1-59FCD6399250}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +20,14 @@ Global
 		{EB398AF7-3634-4D17-BD71-383548E91F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB398AF7-3634-4D17-BD71-383548E91F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB398AF7-3634-4D17-BD71-383548E91F50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{067AB987-90F9-4876-9BE7-DFB27D1822AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067AB987-90F9-4876-9BE7-DFB27D1822AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067AB987-90F9-4876-9BE7-DFB27D1822AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067AB987-90F9-4876-9BE7-DFB27D1822AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB398AF7-3634-4D17-BD71-383548E91F50} = {96F3F719-FB7B-4350-B7F0-1D76CF769210}
+		{067AB987-90F9-4876-9BE7-DFB27D1822AC} = {93A98FCC-BECA-42C4-BAC6-8367B2880CFC}
+		{9A2526BF-47A5-4764-85E1-59FCD6399250} = {96F3F719-FB7B-4350-B7F0-1D76CF769210}
 	EndGlobalSection
 EndGlobal

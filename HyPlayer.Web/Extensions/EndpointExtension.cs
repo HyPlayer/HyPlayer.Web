@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using HyPlayer.Web.Infrastructure.Interfaces;
+using HyPlayer.Web.Interfaces;
 
 namespace HyPlayer.Web.Extensions;
 

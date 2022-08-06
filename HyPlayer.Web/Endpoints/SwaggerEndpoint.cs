@@ -1,4 +1,4 @@
-﻿using HyPlayer.Web.Infrastructure.Interfaces;
+﻿using HyPlayer.Web.Interfaces;
 using Microsoft.OpenApi.Models;
 
 namespace HyPlayer.Web.Endpoints;

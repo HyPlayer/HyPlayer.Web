@@ -1,8 +1,8 @@
 ﻿using System.Net.Mail;
 using System.Text.Json.Serialization;
-using HyPlayer.Web.Infrastructure.Interfaces;
-using HyPlayer.Web.Infrastructure.Models;
-using HyPlayer.Web.Infrastructure.Models.DbModels;
+using HyPlayer.Web.Interfaces;
+using HyPlayer.Web.Models;
+using HyPlayer.Web.Models.DbModels;
 
 namespace HyPlayer.Web.AppDistributors;
 
@@ -37,6 +37,7 @@ public class GithubDistributor : IAppDistributor
         [JsonPropertyName("body")] public required string Body { get; set; }
     }
 
+    public string Name => "Github";
     public List<ChannelType> BindingChannels => new() { ChannelType.GithubNightly };
 
     public async Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
@@ -58,8 +59,9 @@ public class GithubDistributor : IAppDistributor
             Version = response.Name,
             Date = response.PublishedAt,
             Mandatory = !response.IsPrerelease,
-            ViewUrl = response.HtmlUrl,
-            UpdateLog = response.Body
+            DownloadUrl = response.HtmlUrl,
+            UpdateLog = response.Body,
+            Size = -1,
         };
     }
 }

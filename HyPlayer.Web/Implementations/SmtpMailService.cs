@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using HyPlayer.Web.Infrastructure.Interfaces;
+using HyPlayer.Web.Interfaces;
 
 namespace HyPlayer.Web.Implementations;
 

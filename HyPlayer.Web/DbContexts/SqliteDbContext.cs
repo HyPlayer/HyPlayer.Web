@@ -1,4 +1,4 @@
-﻿using HyPlayer.Web.Infrastructure.Models.DbModels;
+﻿using HyPlayer.Web.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HyPlayer.Web.DbContexts;
