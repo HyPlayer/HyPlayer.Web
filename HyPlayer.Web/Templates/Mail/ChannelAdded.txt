@@ -2,7 +2,7 @@
 欢迎加入 HyPlayer 内测, 你已经选择通过邮件订阅更新,
 在之后的每次更新后, 你都可以通过邮箱收到更新日志及下载链接
 如需退订, 请点击: https://hyplayer.kengwang.com.cn/user/delete/{USERID}
-稍后将会给您发送一封最新版本信息邮件, 请注意查收
+你现在可以前往 https://hyplayer.kengwang.com.cn/#/channel/{CHANNELID}/latest/{USERID} 获取更新
 
 顺颂
 时祺

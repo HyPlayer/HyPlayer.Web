@@ -124,6 +124,7 @@ public class UserEndpoint : IEndpoint
                 (await templateProvider.GetTemplateAsync("ChannelAdded", cancellationToken))
                 .Replace("{USERNAME}", request.UserName!)
                 .Replace("{USERID}", newUser.Id.ToString())
+                .Replace("{CHANNELID}",((int)newUser.ChannelType).ToString())
                 , cancellationToken);
         }
 
