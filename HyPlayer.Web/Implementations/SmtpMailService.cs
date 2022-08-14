@@ -1,6 +1,6 @@
-﻿using System.Net;
-using HyPlayer.Web.Interfaces;
+﻿using HyPlayer.Web.Interfaces;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 
 namespace HyPlayer.Web.Implementations;
@@ -24,7 +24,7 @@ public class SmtpMailService : IEmailService
         _from = configuration.GetValue<string>("Smtp:From");
         _useSsl = configuration.GetValue<bool>("Smtp:UseSsl");
         _smtpClient = new SmtpClient();
-        _smtpClient.Connect(_host, _port, _useSsl);
+        _smtpClient.Connect(_host, _port, SecureSocketOptions.StartTls);
         _smtpClient.Authenticate(_username, _password);
     }
 
