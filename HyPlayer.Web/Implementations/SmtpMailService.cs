@@ -1,6 +1,7 @@
 ﻿using System.Net;
-using System.Net.Mail;
 using HyPlayer.Web.Interfaces;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace HyPlayer.Web.Implementations;
 
@@ -22,18 +23,24 @@ public class SmtpMailService : IEmailService
         _port = configuration.GetValue<int>("Smtp:Port");
         _from = configuration.GetValue<string>("Smtp:From");
         _useSsl = configuration.GetValue<bool>("Smtp:UseSsl");
-        _smtpClient = new SmtpClient(_host,_port)
-        {
-            Credentials = new NetworkCredential(_username, _password),
-            EnableSsl = _useSsl,
-            DeliveryMethod = SmtpDeliveryMethod.Network
-        };
+        _smtpClient = new SmtpClient();
+        _smtpClient.Connect(_host, _port, _useSsl);
+        _smtpClient.Authenticate(_username, _password);
     }
 
-    public async Task<bool> SendMailToAsync(string to, string subject, string body,
+    public async Task<bool> SendMailToAsync(string to, string? subject, string? body, List<string>? bcc,
         CancellationToken cancellationToken = default)
     {
-        await _smtpClient.SendMailAsync(_from!, to, subject, body, cancellationToken);
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress("HyPlayer Team", _from!));
+        message.To.Add(new MailboxAddress(to, to));
+        message.Subject = subject;
+        message.Body = new TextPart("plain")
+        {
+            Text = body
+        };
+        if (bcc != null) message.Bcc.AddRange(bcc.Select(t => new MailboxAddress(t, t)));
+        await _smtpClient.SendAsync(message, cancellationToken);
         return true;
     }
 }

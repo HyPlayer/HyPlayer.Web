@@ -1,4 +1,4 @@
-﻿Hi {USERNAME} ~
+﻿Hi ~
 
 HyPlayer 已在您所订阅的通道上发布更新
 版本: {VERSION}
@@ -9,7 +9,6 @@ HyPlayer 已在您所订阅的通道上发布更新
 更新获取链接:
 https://hyplayer.kengwang.com.cn/#/channel/{CHANNELID}/latest
 
-如需退订请点击: https://hyplayer.kengwang.com.cn/user/delete/{USERID}
 如需更改通道请点击: https://hyplayer.kengwang.com.cn/#/insider
 
 HyPlayer 团队

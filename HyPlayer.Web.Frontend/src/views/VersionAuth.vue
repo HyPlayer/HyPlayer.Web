@@ -8,6 +8,8 @@
             请输入您的微软账号邮箱
           </div>
         </template>
+        后续更新可在此页面获取
+        <br /><br />
         <el-input v-model="email" placeholder="请输入微软账户邮箱" clearable/>
         <el-button type="primary" @click="submitEmail" class="hy-btn-submit">提交</el-button>
         <el-alert class="hy-alert" v-if="error" :title="errorMsg" type="error" show-icon/>

@@ -116,17 +116,7 @@ public class UserEndpoint : IEndpoint
         {
             repositoryResult = await repository.CreateAsync(newUser, cancellationToken);
         }
-
-
-        if (repositoryResult && request.SubscribeUpdates)
-        {
-            await emailService.SendMailToAsync(request.Contact!, "[HyPlayer] 内测通道申请成功通知",
-                (await templateProvider.GetTemplateAsync("ChannelAdded", cancellationToken))
-                .Replace("{USERNAME}", request.UserName!)
-                .Replace("{USERID}", newUser.Id.ToString())
-                .Replace("{CHANNELID}",((int)newUser.ChannelType).ToString())
-                , cancellationToken);
-        }
+        
 
         return repositoryResult
             ? Results.Created($"/user/{newUser.Id}", newUser)

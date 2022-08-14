@@ -33,7 +33,8 @@
         />
         <el-button type="primary" @click="submit" class="hy-btn-submit">提交</el-button>
         <el-alert class="hy-alert" v-if="error" :title="errorMsg" type="error" show-icon/>
-        <el-alert class="hy-alert" v-if="success" title="申请成功: 一封邮件已经发送到您的联系邮箱, 请注意检查垃圾箱" type="success" show-icon/>
+        <el-alert class="hy-alert" v-if="success" title="申请成功: 点击下方链接获取最新版本" type="success" show-icon/>
+        <el-button type="primary" v-if="success" class="hy-form-item" @click="getLatest">获取最新版本</el-button>
       </el-card>
     </el-col>
   </el-row>
@@ -56,7 +57,7 @@ export default defineComponent({
       channel: 2,
       subscribe: true
     },
-    options : [
+    options: [
       {
         value: 0,
         label: 'Microsoft Store',
@@ -82,16 +83,19 @@ export default defineComponent({
     ]
   }),
   methods: {
-    submit(){
+    submit() {
       this.error = false
-      axios.post('/user',this.userData)
-          .then(data=>{
+      axios.post('/user', this.userData)
+          .then(data => {
             this.success = true
           })
-          .catch(error=>{
+          .catch(error => {
             this.error = true
             this.errorMsg = error.message + ': ' + error.response.data
           })
+    },
+    getLatest() {
+      this.$router.push("/channel/" + this.userData.channel + "/latest")
     }
   }
 })

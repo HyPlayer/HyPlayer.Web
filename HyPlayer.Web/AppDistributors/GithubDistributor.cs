@@ -44,7 +44,7 @@ public class GithubDistributor : IAppDistributor
     {
         var template = await _emailTemplateProvider.GetTemplateAsync("GithubNightly", cancellationToken);
         return await _emailService.SendMailToAsync(user.Email, "[HyPlayer] 内测申请成功",
-            template.Replace("{USERNAME}", user.UserName), cancellationToken);
+            template.Replace("{USERNAME}", user.UserName), cancellationToken: cancellationToken);
     }
 
     public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,
