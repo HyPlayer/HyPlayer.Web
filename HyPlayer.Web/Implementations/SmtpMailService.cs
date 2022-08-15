@@ -14,9 +14,11 @@ public class SmtpMailService : IEmailService
     private readonly string? _from;
     private readonly bool _useSsl;
     private readonly SmtpClient _smtpClient;
+    private readonly ILogger<SmtpMailService> _logger;
 
-    public SmtpMailService(IConfiguration configuration)
+    public SmtpMailService(IConfiguration configuration, ILogger<SmtpMailService> logger)
     {
+        _logger = logger;
         _username = configuration.GetValue<string>("Smtp:UserName");
         _password = configuration.GetValue<string>("Smtp:Password");
         _host = configuration.GetValue<string>("Smtp:Host");
@@ -31,6 +33,7 @@ public class SmtpMailService : IEmailService
     public async Task<bool> SendMailToAsync(string to, string? subject, string? body, List<string>? bcc,
         CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation("Sending mail to {To} with {BccCount} bcc", to, bcc?.Count);
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("HyPlayer Team", _from!));
         message.To.Add(new MailboxAddress(to, to));
