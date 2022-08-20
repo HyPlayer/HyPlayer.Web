@@ -5,7 +5,7 @@ using MimeKit;
 
 namespace HyPlayer.Web.Implementations;
 
-public class SmtpMailService : IEmailService
+public class SmtpMailService : IEmailService , IDisposable
 {
     private readonly string? _username;
     private readonly string? _password;
@@ -45,5 +45,10 @@ public class SmtpMailService : IEmailService
         if (bcc != null) message.Bcc.AddRange(bcc.Select(t => new MailboxAddress(t, t)));
         await _smtpClient.SendAsync(message, cancellationToken);
         return true;
+    }
+
+    public void Dispose()
+    {
+        _smtpClient.Dispose();
     }
 }
