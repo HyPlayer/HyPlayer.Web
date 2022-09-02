@@ -26,6 +26,11 @@ const routes : Array<RouteRecordRaw> = [
         component: VersionAuth
     },
     {
+        path: '/channel/latest',
+        name: 'appLatestVersionAuth',
+        component: VersionAuth
+    },
+    {
         path: '/insider',
         name: 'insider',
         component: Insider

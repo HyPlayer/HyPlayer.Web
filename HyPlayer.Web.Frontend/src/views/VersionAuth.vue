@@ -33,7 +33,7 @@ export default defineComponent({
     submitEmail() {
       axios.get('/user/email/' + this.email)
           .then(data => {
-            this.$router.push('/channel/' + this.$route.params.channel + '/latest/' + data.data.id)
+            this.$router.push('/channel/' + data.data.channelType + '/latest/' + data.data.id)
           })
           .catch(error => {
             this.error = true

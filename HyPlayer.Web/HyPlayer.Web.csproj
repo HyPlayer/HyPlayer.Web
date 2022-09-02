@@ -14,6 +14,7 @@
 
     <ItemGroup>
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
+      <PackageReference Include="Kvyk.Telegraph" Version="1.1.0" />
       <PackageReference Include="MailKit" Version="3.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
         <PrivateAssets>all</PrivateAssets>
@@ -23,6 +24,7 @@
       <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
+      <PackageReference Include="Telegram.Bot" Version="18.0.0" />
     </ItemGroup>
 
     <ItemGroup>

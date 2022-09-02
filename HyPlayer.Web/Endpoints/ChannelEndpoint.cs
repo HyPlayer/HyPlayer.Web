@@ -18,16 +18,20 @@ public class ChannelEndpoint : IEndpoint
     }
 
     private async Task<IResult> BroadcastUpdate(ChannelType channel,
-        IUpdateBroadcaster broadcaster,
+        IEnumerable<IUpdateBroadcaster> broadcasters,
         IRepository<User, Guid> repository,
         IConfiguration configuration,
         string authKey)
     {
         if (configuration.GetValue<string>("PipelineAuthKey") != authKey)
             return Results.Problem("授权密钥有误", statusCode: 403);
-        _ = broadcaster.BroadcastAsync(channel,
-            (await repository.GetQueryableEntitiesAsync()).Where(t => t.ChannelType == channel && t.Subscribe)
-            .ToList());
+        foreach (var updateBroadcaster in broadcasters.ToList())
+        {
+            await updateBroadcaster.BroadcastAsync(channel,
+                (await repository.GetQueryableEntitiesAsync()).Where(t => t.ChannelType == channel && t.Subscribe)
+                .ToList());
+        }
+
         return Results.Ok();
     }
 

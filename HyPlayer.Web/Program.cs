@@ -35,7 +35,8 @@ builder.Services.AddScoped(typeof(IRepository<,>), typeof(SqliteRepository<,>));
 builder.Services.AddTransient<IEmailService, SmtpMailService>();
 builder.Services.AddSingleton<IAdminRepository, AdminConfigurationRepository>();
 builder.Services.AddSingleton<IEmailTemplateProvider, FileEmailTemplateProvider>();
-builder.Services.AddSingleton<IUpdateBroadcaster, EmailUpdateBroadcaster>();
+builder.Services.AddTransient<IUpdateBroadcaster, EmailUpdateBroadcaster>();
+builder.Services.AddTransient<IUpdateBroadcaster, TelegramBroadcaster>();
 builder.Services.AddFluentValidation();
 builder.Services.AddEndpointsByAssembly(Assembly.GetExecutingAssembly());
 

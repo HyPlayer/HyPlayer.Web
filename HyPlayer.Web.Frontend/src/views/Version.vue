@@ -22,7 +22,7 @@
             <el-alert
                 title="温馨提示"
                 type="success"
-                description="如果您是第一次安装内测通道版本, 请先卸载原有程序. 运行下载的压缩包中的 Install.ps1 进行安装"
+                description="如果您是第一次安装内测通道版本, 请先卸载原有程序. 运行下载的压缩包中的 Install.ps1 进行安装. 在安装完成后请进入 HyPlayer 设置 - 关于 - 检查更新 中选择正确的通道以便接受正确的更新"
                 show-icon
             />
           </el-skeleton>

@@ -25,3 +25,4 @@ public enum ChannelType
     AppCenterRelease,
     GithubNightly
 }
+

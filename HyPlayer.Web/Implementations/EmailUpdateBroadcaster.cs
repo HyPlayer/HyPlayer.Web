@@ -20,31 +20,30 @@ public class EmailUpdateBroadcaster : IUpdateBroadcaster
         _logger = logger;
     }
 
-    public Task BroadcastAsync(ChannelType type, List<User> users)
+    public async Task<bool> BroadcastAsync(ChannelType type, List<User> users)
     {
-        return Task.Run(async () =>
+        try
         {
-            try
-            {
-                var appDistributor = _appDistributors.FirstOrDefault(t => t.BindingChannels.Contains(type));
-                if (appDistributor == null) throw new Exception("通道不存在");
-                var update = await appDistributor.GetLatestUpdateAsync(type);
-                if (update == null) throw new Exception("更新获取失败");
+            var appDistributor = _appDistributors.FirstOrDefault(t => t.BindingChannels.Contains(type));
+            if (appDistributor == null) throw new Exception("通道不存在");
+            var update = await appDistributor.GetLatestUpdateAsync(type);
+            if (update == null) throw new Exception("更新获取失败");
 
-                var template = await _emailTemplateProvider.GetTemplateAsync("ChannelUpdateNotice");
-                var msg = template
-                    .Replace("{VERSION}", update.Version)
-                    .Replace("{TIME}", update.Date.ToString(CultureInfo.CurrentCulture))
-                    .Replace("{UPDATELOG}", update.UpdateLog)
-                    .Replace("{CHANNELID}", ((int)type).ToString());
-                await _emailService.SendMailToAsync("hyplayer123@163.com", "[HyPlayer] 您所订阅的更新通道已经推出新版本", msg,
-                    bcc: users.Select(t => t.Contact).ToList());
-                await Task.Delay(5000);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Error Broadcasting Update");
-            }
-        });
+            var template = await _emailTemplateProvider.GetTemplateAsync("ChannelUpdateNotice");
+            var msg = template
+                .Replace("{VERSION}", update.Version)
+                .Replace("{TIME}", update.Date.ToString(CultureInfo.CurrentCulture))
+                .Replace("{UPDATELOG}", update.UpdateLog)
+                .Replace("{CHANNELID}", ((int)type).ToString());
+            await _emailService.SendMailToAsync("hyplayer123@163.com", "[HyPlayer] 您所订阅的更新通道已经推出新版本", msg,
+                bcc: users.Select(t => t.Contact).ToList());
+            await Task.Delay(5000);
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error Broadcasting Update");
+            return false;
+        }
     }
 }
