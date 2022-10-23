@@ -5,7 +5,6 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import './style.css'
 import App from './App.vue'
 import {router} from "./configs/vue-router"
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 //import { createPinia } from 'pinia'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {FaLibrary} from "./configs/font-awesome"

@@ -53,7 +53,6 @@ export default defineComponent({
   }),
   computed: {
     channelName() {
-      console.log(this.$route)
       switch (this.$route.params.channel) {
         case '0':
           return "Microsoft Store"

@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Home from "../views/Home.vue"
-import Version from "../views/Version.vue"
-import VersionAuth from "../views/VersionAuth.vue"
-import Insider from "../views/Insider.vue";
+const Home = () => import("../views/Home.vue")
+const Version = () => import("../views/Version.vue")
+const VersionAuth = () => import("../views/VersionAuth.vue")
+const Insider = () => import("../views/Insider.vue")
 
 
 const routes : Array<RouteRecordRaw> = [
@@ -22,7 +22,7 @@ const routes : Array<RouteRecordRaw> = [
     },
     {
         path: '/channel/:channel/latest',
-        name: 'appLatestVersionAuth',
+        name: 'appLatestVersionAuthWithId',
         component: VersionAuth
     },
     {
