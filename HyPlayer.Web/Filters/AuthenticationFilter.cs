@@ -4,7 +4,7 @@ using HyPlayer.Web.Interfaces;
 
 namespace HyPlayer.Web.Filters;
 
-public class AuthenticationFilter : IRouteHandlerFilter
+public class AuthenticationFilter : IEndpointFilter
 {
     private readonly IAdminRepository _adminRepository;
 
@@ -13,7 +13,7 @@ public class AuthenticationFilter : IRouteHandlerFilter
         _adminRepository = adminRepository;
     }
 
-    public async ValueTask<object?> InvokeAsync(RouteHandlerInvocationContext context, RouteHandlerFilterDelegate next)
+    public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         if (!context.HttpContext.Request.Query.ContainsKey("admin") ||
             !context.HttpContext.Request.Query.ContainsKey("password"))

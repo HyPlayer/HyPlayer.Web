@@ -19,9 +19,9 @@ public class UserEndpoint : IEndpoint
     public void ConfigureEndpoint(WebApplication app)
     {
         app.MapPost("/user", CreateUser)
-            .AddRouteHandlerFilter<ValidationFilter<UserCreateRequest>>();
+            .AddEndpointFilter<ValidationFilter<UserCreateRequest>>();
         app.MapGet("/users", GetUsers)
-            .AddRouteHandlerFilter<AuthenticationFilter>();
+            .AddEndpointFilter<AuthenticationFilter>();
         app.MapGet("/user/{userId:guid}", GetUser);
         app.MapGet("/user/email/{email}", GetUserByEmail);
         app.MapGet("/user/delete/{id:guid}", UserUnsubscribe);
