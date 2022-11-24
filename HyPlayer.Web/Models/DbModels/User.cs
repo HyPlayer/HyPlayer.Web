@@ -14,6 +14,8 @@ public class User
     public ChannelType ChannelType { get; set; }
     
     public bool Subscribe { get; set; }
+
+    public bool IsBanned { get; set; }
 }
 
 [Flags]

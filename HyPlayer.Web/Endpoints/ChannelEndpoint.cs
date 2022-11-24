@@ -28,7 +28,7 @@ public class ChannelEndpoint : IEndpoint
         foreach (var updateBroadcaster in broadcasters.ToList())
         {
             await updateBroadcaster.BroadcastAsync(channel,
-                (await repository.GetQueryableEntitiesAsync()).Where(t => t.ChannelType == channel && t.Subscribe)
+                (await repository.GetQueryableEntitiesAsync()).Where(t => t.ChannelType == channel && t.Subscribe && !t.IsBanned)
                 .ToList());
         }
 
