@@ -32,18 +32,7 @@ public class UserEndpoint : IEndpoint
         CancellationToken cancellationToken)
     {
         var user = await repository.GetByIdAsync(userId, cancellationToken);
-        if (user != null)
-        {
-            if (user.IsBanned)
-            {
-                Results.BadRequest("该用户已被封禁");
-            }
-            else
-            {
-                return Results.Ok(user);
-            }
-        }
-        return Results.NotFound("用户不存在");
+        return user != null ? Results.Ok(user) : Results.NotFound("用户不存在");
     }
 
     private async Task<IResult> GetUserByEmail(string email,
@@ -52,20 +41,8 @@ public class UserEndpoint : IEndpoint
     {
         var user = (await repository.GetQueryableEntitiesAsync(cancellationToken))
             .FirstOrDefault(u => u.Email == email);
-        if (user != null)
-        {
-            if (user.IsBanned)
-            {
-                Results.BadRequest("该用户已被封禁");
-            }
-            else
-            {
-                return Results.Ok(user);
-            }
-        }
-        return Results.NotFound("用户不存在");
+        return user != null ? Results.Ok(user) : Results.NotFound("User Not Found");
     }
-
 
     private static async Task<IResult> UserUnsubscribe([FromRoute] Guid id,
         IRepository<User, Guid> repository,
@@ -109,8 +86,7 @@ public class UserEndpoint : IEndpoint
             Email = request.Email!,
             ChannelType = request.ChannelType,
             Contact = request.Contact!,
-            Subscribe = request.SubscribeUpdates,
-            IsBanned = false
+            Subscribe = request.SubscribeUpdates
         };
 
 
@@ -129,17 +105,12 @@ public class UserEndpoint : IEndpoint
                 t => t.Email == request.Email);
         if (dbUser != null)
         {
-            if (dbUser.IsBanned == false)
-            {
-                dbUser.Contact = newUser.Contact;
-                dbUser.UserName = newUser.UserName;
-                dbUser.ChannelType = newUser.ChannelType;
-                dbUser.Subscribe = newUser.Subscribe;
-                newUser.Id = dbUser.Id;
-                dbUser.IsBanned = false;
-                repositoryResult = await repository.UpdateAsync(dbUser, cancellationToken);
-            }
-            else return Results.BadRequest("该用户已被封禁");
+            dbUser.Contact = newUser.Contact;
+            dbUser.UserName = newUser.UserName;
+            dbUser.ChannelType = newUser.ChannelType;
+            dbUser.Subscribe = newUser.Subscribe;
+            newUser.Id = dbUser.Id;
+            repositoryResult = await repository.UpdateAsync(dbUser, cancellationToken);
         }
         else
         {
