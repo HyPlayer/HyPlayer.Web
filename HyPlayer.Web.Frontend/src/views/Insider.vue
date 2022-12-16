@@ -9,7 +9,7 @@
         </template>
         <el-input class="hy-form-item" v-model="userData.username" placeholder="请输入用户名" clearable/>
         <el-input class="hy-form-item" v-model="userData.email" type="email" placeholder="请输入微软账号" clearable/>
-        <el-input class="hy-form-item" v-model="userData.contact" placeholder="请输入联系邮箱" clearable/>
+        <el-input class="hy-form-item" v-model="userData.contact" type="email" placeholder="请输入联系邮箱" clearable/>
         <el-row class="hy-form-item" style="width: 100%">
           <el-col :xs="24" :sm="24" :lg="12" :xl="12">
             <div>更新通道:</div>

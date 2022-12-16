@@ -18,11 +18,12 @@
         <div class="hy-card-content">
           <el-skeleton style="width: 100%" :loading="loading" animated>
             <v-md-preview :text="update.updateLog"></v-md-preview>
-            <el-button type="primary" @click="download" class="hy-download-btn">下载</el-button>
+            <el-button type="primary" @click="download" class="hy-download-btn">下载版本包</el-button>
+            <el-button type="primary" @click="downloadBasic" class="hy-download-btn">下载基础包</el-button>
             <el-alert
                 title="温馨提示"
                 type="success"
-                description="如果您是第一次安装内测通道版本, 请先卸载原有程序. 运行下载的压缩包中的 Install.ps1 进行安装. 在安装完成后请进入 HyPlayer 设置 - 关于 - 检查更新 中选择正确的通道以便接受正确的更新"
+                description="如果您是第一次安装内测通道版本, 请同时下载基础包"
                 show-icon
             />
           </el-skeleton>
@@ -70,6 +71,9 @@ export default defineComponent({
   methods: {
     download() {
       window.location.href = this.update.url
+    },
+    downloadBasic() {
+      window.location.href = "https://install.appcenter.ms/users/kengwang/apps/hyplayer/distribution_groups/base%20packages"
     }
   },
   mounted() {

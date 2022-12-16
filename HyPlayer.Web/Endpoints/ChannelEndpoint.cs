@@ -17,7 +17,7 @@ public class ChannelEndpoint : IEndpoint
         app.MapGet("/channel/{channel}/broadcastUpdate/{authKey}", BroadcastUpdate);
     }
 
-    private async Task<IResult> BroadcastUpdate(ChannelType channel,
+    private static async Task<IResult> BroadcastUpdate(ChannelType channel,
         IEnumerable<IUpdateBroadcaster> broadcasters,
         IRepository<User, Guid> repository,
         IConfiguration configuration,
