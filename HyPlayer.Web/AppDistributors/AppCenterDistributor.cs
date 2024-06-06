@@ -90,7 +90,7 @@ public class AppCenterDistributor : IAppDistributor
         CancellationToken cancellationToken = default)
     {
         var latestReleaseInfo = await _hybridCache.GetOrCreateAsync($"AppCenter_Channel{ChannelTypeToName[channelType]}",
-                async token => await GetLatestReleaseInfoAsync(channelType, token), token: cancellationToken)
+                async token => await GetLatestReleaseInfoAsync(channelType, token), tags: ["release"], token: cancellationToken)
             .ConfigureAwait(false);
         return new LatestApplicationUpdate
         {

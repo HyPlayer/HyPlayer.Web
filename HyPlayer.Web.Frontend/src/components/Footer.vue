@@ -1,5 +1,5 @@
 <template>
-  <div class="hy-copyright">HyPlayer Team | 2022</div>
+  <div class="hy-copyright">HyPlayer Team | 2024</div>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,6 @@
 ﻿using HyPlayer.Web.Interfaces;
 using HyPlayer.Web.Models.DbModels;
+using Microsoft.Extensions.Caching.Hybrid;
 
 namespace HyPlayer.Web.Endpoints;
 
@@ -20,11 +21,13 @@ public class ChannelEndpoint : IEndpoint
     private static async Task<IResult> BroadcastUpdate(ChannelType channel,
         IEnumerable<IUpdateBroadcaster> broadcasters,
         IRepository<User, Guid> repository,
+        HybridCache _hybridCache,
         IConfiguration configuration,
         string authKey)
     {
         if (configuration.GetValue<string>("PipelineAuthKey") != authKey)
             return Results.Problem("授权密钥有误", statusCode: 403);
+        await _hybridCache.RemoveTagAsync("release");
         foreach (var updateBroadcaster in broadcasters.ToList())
         {
             await updateBroadcaster.BroadcastAsync(channel,
