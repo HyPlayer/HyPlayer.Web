@@ -5,6 +5,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyPlayer.Web.Tests", "HyPlayer.Web.Tests\HyPlayer.Web.Tests.csproj", "{067AB987-90F9-4876-9BE7-DFB27D1822AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{96F3F719-FB7B-4350-B7F0-1D76CF769210}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{93A98FCC-BECA-42C4-BAC6-8367B2880CFC}"
 EndProject
