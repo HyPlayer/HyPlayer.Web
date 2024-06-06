@@ -8,6 +8,7 @@ using HyPlayer.Web.Interfaces;
 using HyPlayer.Web.Repositories;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Hybrid;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -18,6 +19,7 @@ Log.Logger = new LoggerConfiguration()
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
+builder.Services.AddHttpClient();
 builder.Logging.AddSerilog();
 builder.Services.Configure<JsonOptions>(option =>
 {
@@ -30,6 +32,15 @@ builder.Services.AddDbContext<SqliteDbContext>(optionsBuilder =>
         {
             contextOptionsBuilder.MigrationsAssembly(typeof(SqliteDbContext).Assembly.GetName().Name ?? "");
         });
+});
+
+builder.Services.AddHybridCache(options =>
+{
+    options.DefaultEntryOptions = new HybridCacheEntryOptions
+    {
+        Expiration = TimeSpan.FromMinutes(10),
+        LocalCacheExpiration = TimeSpan.FromMinutes(10)
+    };
 });
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(SqliteRepository<,>));
 builder.Services.AddTransient<IEmailService, SmtpMailService>();

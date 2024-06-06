@@ -2,14 +2,17 @@
 using HyPlayer.Web.Interfaces;
 using HyPlayer.Web.Models;
 using HyPlayer.Web.Models.DbModels;
+using Microsoft.Extensions.Caching.Hybrid;
 
 namespace HyPlayer.Web.AppDistributors;
 
 public class AppCenterDistributor : IAppDistributor
 {
-    public AppCenterDistributor(IConfiguration configuration, ILogger<AppCenterDistributor> logger)
+    public AppCenterDistributor(IConfiguration configuration, ILogger<AppCenterDistributor> logger,
+        HybridCache hybridCache)
     {
         _logger = logger;
+        _hybridCache = hybridCache;
         _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.Add("X-API-Token",
             configuration.GetValue<string>("Distributors:AppCenter:UserApiToken"));
@@ -27,6 +30,7 @@ public class AppCenterDistributor : IAppDistributor
     private readonly string _ownerName;
     private readonly string _appName;
     private readonly ILogger<AppCenterDistributor> _logger;
+    private readonly HybridCache _hybridCache;
 
     private Dictionary<ChannelType, string> ChannelTypeToName => new()
     {
@@ -81,16 +85,13 @@ public class AppCenterDistributor : IAppDistributor
         return false;
     }
 
+
     public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,
         CancellationToken cancellationToken = default)
     {
-        var result =
-            await _httpClient.GetAsync(
-                $"/v0.1/apps/{_ownerName}/{_appName}/distribution_groups/{ChannelTypeToName[channelType]}/releases/latest",
-                cancellationToken);
-        result.EnsureSuccessStatusCode();
-        var releaseInfos = await result.Content.ReadFromJsonAsync<ReleaseInfo>(cancellationToken: cancellationToken);
-        var latestReleaseInfo = releaseInfos!;
+        var latestReleaseInfo = await _hybridCache.GetOrCreateAsync($"AppCenter_Channel{ChannelTypeToName[channelType]}",
+                async token => await GetLatestReleaseInfoAsync(channelType, token), token: cancellationToken)
+            .ConfigureAwait(false);
         return new LatestApplicationUpdate
         {
             Version = latestReleaseInfo?.Version!,
@@ -100,5 +101,17 @@ public class AppCenterDistributor : IAppDistributor
             UpdateLog = latestReleaseInfo?.ReleaseNotes!,
             Size = latestReleaseInfo?.Size ?? -1
         };
+    }
+
+    public async Task<ReleaseInfo> GetLatestReleaseInfoAsync(ChannelType channelType,
+        CancellationToken cancellationToken = default)
+    {
+        var result =
+            await _httpClient.GetAsync(
+                $"/v0.1/apps/{_ownerName}/{_appName}/distribution_groups/{ChannelTypeToName[channelType]}/releases/latest",
+                cancellationToken);
+        result.EnsureSuccessStatusCode();
+        var releaseInfos = await result.Content.ReadFromJsonAsync<ReleaseInfo>(cancellationToken: cancellationToken);
+        return releaseInfos!;
     }
 }

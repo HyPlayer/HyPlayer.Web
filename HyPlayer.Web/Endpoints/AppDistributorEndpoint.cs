@@ -8,9 +8,9 @@ public class AppDistributorEndpoint : IEndpoint
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<IAppDistributor, AppCenterDistributor>();
-        services.AddSingleton<IAppDistributor, MicrosoftStoreDistributor>();
-        services.AddSingleton<IAppDistributor, GithubDistributor>();
+        services.AddScoped<IAppDistributor, AppCenterDistributor>();
+        services.AddScoped<IAppDistributor, MicrosoftStoreDistributor>();
+        services.AddScoped<IAppDistributor, GithubDistributor>();
     }
 
     public void ConfigureEndpoint(WebApplication app)

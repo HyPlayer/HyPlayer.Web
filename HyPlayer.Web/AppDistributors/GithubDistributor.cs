@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using HyPlayer.Web.Interfaces;
 using HyPlayer.Web.Models;
 using HyPlayer.Web.Models.DbModels;
+using Microsoft.Extensions.Caching.Hybrid;
 
 namespace HyPlayer.Web.AppDistributors;
 
@@ -10,15 +11,19 @@ public class GithubDistributor : IAppDistributor
 {
     private readonly IEmailService _emailService;
     private readonly IEmailTemplateProvider _emailTemplateProvider;
+    private readonly HttpClient _httpClient;
+    private readonly HybridCache _hybridCache;
     private readonly string _org;
     private readonly string _proj;
     private readonly string _tag;
 
     public GithubDistributor(IConfiguration configuration, IEmailService emailService,
-        IEmailTemplateProvider emailTemplateProvider)
+        IEmailTemplateProvider emailTemplateProvider, HttpClient httpClient, HybridCache hybridCache)
     {
         _emailService = emailService;
         _emailTemplateProvider = emailTemplateProvider;
+        _httpClient = httpClient;
+        _hybridCache = hybridCache;
         _org = configuration.GetValue<string>("Distributors:Github:OrganizationName")!;
         _proj = configuration.GetValue<string>("Distributors:Github:ProjectName")!;
         _tag = configuration.GetValue<string>("Distributors:Github:TagName")!;
@@ -47,13 +52,18 @@ public class GithubDistributor : IAppDistributor
             template.Replace("{USERNAME}", user.UserName), cancellationToken: cancellationToken);
     }
 
+    private async Task<GithubReleaseResponse?> GetReleaseResponse(CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetFromJsonAsync<GithubReleaseResponse?>(
+            $"https://api.github.com/repos/{_org}/{_proj}/releases/tags/{_tag}", cancellationToken: cancellationToken);
+    }
+    
     public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,
         CancellationToken cancellationToken = default)
     {
-        var httpClient = new HttpClient();
-        var response = await httpClient.GetFromJsonAsync<GithubReleaseResponse?>(
-            $"https://api.github.com/repos/{_org}/{_proj}/releases/tags/{_tag}", cancellationToken: cancellationToken);
-        if (response == null) return null;
+        var response = await _hybridCache.GetOrCreateAsync($"GitHub_Nightly", async _ => await GetReleaseResponse(cancellationToken), token: cancellationToken);
+        if (response == null)
+            return null;
         return new LatestApplicationUpdate
         {
             Version = response.Name,

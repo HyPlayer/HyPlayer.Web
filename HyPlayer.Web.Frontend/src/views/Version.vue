@@ -19,11 +19,12 @@
           <el-skeleton style="width: 100%" :loading="loading" animated>
             <v-md-preview :text="update.updateLog"></v-md-preview>
             <el-button type="primary" @click="download" class="hy-download-btn">下载版本包</el-button>
+            <el-button type="primary" @click="downloadFull" class="hy-download-btn">下载完整包 (新手推荐)</el-button>
             <el-button type="primary" @click="downloadBasic" class="hy-download-btn">下载基础包</el-button>
             <el-alert
                 title="温馨提示"
                 type="success"
-                description="如果您是第一次安装内测通道版本, 请同时下载基础包"
+                description="如果您是第一次安装内测通道版本, 建议下载完整包"
                 show-icon
             />
           </el-skeleton>
@@ -74,6 +75,9 @@ export default defineComponent({
     },
     downloadBasic() {
       window.location.href = "https://install.appcenter.ms/users/kengwang/apps/hyplayer/distribution_groups/base%20packages"
+    },
+    downloadFull() {
+      window.location.href = "https://www.123pan.com/s/sfDzVv-pbnB.html"
     }
   },
   mounted() {
