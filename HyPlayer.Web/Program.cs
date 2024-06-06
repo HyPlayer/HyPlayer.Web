@@ -48,7 +48,7 @@ builder.Services.AddSingleton<IAdminRepository, AdminConfigurationRepository>();
 builder.Services.AddSingleton<IEmailTemplateProvider, FileEmailTemplateProvider>();
 builder.Services.AddTransient<IUpdateBroadcaster, EmailUpdateBroadcaster>();
 builder.Services.AddTransient<IUpdateBroadcaster, TelegramBroadcaster>();
-builder.Services.AddFluentValidation();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddEndpointsByAssembly(Assembly.GetExecutingAssembly());
 
 #if DEBUG
