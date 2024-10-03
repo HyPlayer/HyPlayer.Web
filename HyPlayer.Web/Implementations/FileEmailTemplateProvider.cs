@@ -6,6 +6,6 @@ public class FileEmailTemplateProvider : IEmailTemplateProvider
 {
     public async Task<string> GetTemplateAsync(string templateName, CancellationToken cancellationToken = default)
     {
-        return await File.ReadAllTextAsync($"Templates/Mail/{templateName}.txt", cancellationToken);
+        return await File.ReadAllTextAsync($"data/Templates/Mail/{templateName}.txt", cancellationToken);
     }
 }
