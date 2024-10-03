@@ -27,7 +27,7 @@ builder.Services.Configure<JsonOptions>(option =>
 });
 builder.Services.AddDbContext<SqliteDbContext>(optionsBuilder =>
 {
-    optionsBuilder.UseSqlite(builder.Configuration.GetConnectionString("SQLite") ?? "Data Source=database.db",
+    optionsBuilder.UseSqlite(builder.Configuration.GetConnectionString("SQLite") ?? "Data Source=data/database.db",
         contextOptionsBuilder =>
         {
             contextOptionsBuilder.MigrationsAssembly(typeof(SqliteDbContext).Assembly.GetName().Name ?? "");

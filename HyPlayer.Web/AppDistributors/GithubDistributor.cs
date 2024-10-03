@@ -61,7 +61,10 @@ public class GithubDistributor : IAppDistributor
     public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,
         CancellationToken cancellationToken = default)
     {
-        var response = await _hybridCache.GetOrCreateAsync($"GitHub_Nightly", async _ => await GetReleaseResponse(cancellationToken), tags: ["release"], token: cancellationToken);
+        var response = await _hybridCache.GetOrCreateAsync($"GitHub_Nightly",
+            async token => await GetReleaseResponse(token),
+            tags: ["release"],
+            cancellationToken: cancellationToken);
         if (response == null)
             return null;
         return new LatestApplicationUpdate

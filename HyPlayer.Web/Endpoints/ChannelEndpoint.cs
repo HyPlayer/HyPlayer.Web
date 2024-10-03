@@ -27,7 +27,7 @@ public class ChannelEndpoint : IEndpoint
     {
         if (configuration.GetValue<string>("PipelineAuthKey") != authKey)
             return Results.Problem("授权密钥有误", statusCode: 403);
-        await _hybridCache.RemoveTagAsync("release");
+        await _hybridCache.RemoveByTagAsync("release");
         foreach (var updateBroadcaster in broadcasters.ToList())
         {
             await updateBroadcaster.BroadcastAsync(channel,

@@ -89,9 +89,11 @@ public class AppCenterDistributor : IAppDistributor
     public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,
         CancellationToken cancellationToken = default)
     {
-        var latestReleaseInfo = await _hybridCache.GetOrCreateAsync($"AppCenter_Channel{ChannelTypeToName[channelType]}",
-                async token => await GetLatestReleaseInfoAsync(channelType, token), tags: ["release"], token: cancellationToken)
-            .ConfigureAwait(false);
+        var latestReleaseInfo = await _hybridCache.GetOrCreateAsync(
+            $"AppCenter_Channel{ChannelTypeToName[channelType]}",
+            async token => await GetLatestReleaseInfoAsync(channelType, token),
+            tags: ["release"],
+            cancellationToken: cancellationToken);
         return new LatestApplicationUpdate
         {
             Version = latestReleaseInfo?.Version!,
