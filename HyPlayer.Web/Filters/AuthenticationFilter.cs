@@ -4,21 +4,14 @@ using HyPlayer.Web.Interfaces;
 
 namespace HyPlayer.Web.Filters;
 
-public class AuthenticationFilter : IEndpointFilter
+public class AuthenticationFilter(IAdminRepository adminRepository) : IEndpointFilter
 {
-    private readonly IAdminRepository _adminRepository;
-
-    public AuthenticationFilter(IAdminRepository adminRepository)
-    {
-        _adminRepository = adminRepository;
-    }
-
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         if (!context.HttpContext.Request.Query.ContainsKey("admin") ||
             !context.HttpContext.Request.Query.ContainsKey("password"))
             return Results.BadRequest("参数不全");
-        if (await _adminRepository.GetAdministratorAsync(context.HttpContext.Request.Query["admin"]!) is not
+        if (await adminRepository.GetAdministratorAsync(context.HttpContext.Request.Query["admin"]!) is not
             { } admin)
             return Results.Problem("管理账户登入失败", statusCode: 403);
         var computedPasswordHash = string.Join("",

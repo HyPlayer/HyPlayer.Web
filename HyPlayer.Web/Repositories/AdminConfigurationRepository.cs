@@ -3,14 +3,9 @@ using HyPlayer.Web.Models;
 
 namespace HyPlayer.Web.Repositories;
 
-public class AdminConfigurationRepository : IAdminRepository
+public class AdminConfigurationRepository(IConfiguration configuration) : IAdminRepository
 {
-    private readonly List<AdministratorModel> _administrators;
-
-    public AdminConfigurationRepository(IConfiguration configuration)
-    {
-        _administrators = configuration.GetSection("Administrators")!.Get<List<AdministratorModel>>()!;
-    }
+    private readonly List<AdministratorModel> _administrators = configuration.GetSection("Administrators")!.Get<List<AdministratorModel>>()!;
 
     public Task<List<AdministratorModel>> GetAdministratorsAsync()
     {

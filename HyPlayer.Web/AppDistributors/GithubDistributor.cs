@@ -7,27 +7,17 @@ using Microsoft.Extensions.Caching.Hybrid;
 
 namespace HyPlayer.Web.AppDistributors;
 
-public class GithubDistributor : IAppDistributor
+public class GithubDistributor(
+    IConfiguration configuration,
+    IEmailService emailService,
+    IEmailTemplateProvider emailTemplateProvider,
+    HttpClient httpClient,
+    HybridCache hybridCache)
+    : IAppDistributor
 {
-    private readonly IEmailService _emailService;
-    private readonly IEmailTemplateProvider _emailTemplateProvider;
-    private readonly HttpClient _httpClient;
-    private readonly HybridCache _hybridCache;
-    private readonly string _org;
-    private readonly string _proj;
-    private readonly string _tag;
-
-    public GithubDistributor(IConfiguration configuration, IEmailService emailService,
-        IEmailTemplateProvider emailTemplateProvider, HttpClient httpClient, HybridCache hybridCache)
-    {
-        _emailService = emailService;
-        _emailTemplateProvider = emailTemplateProvider;
-        _httpClient = httpClient;
-        _hybridCache = hybridCache;
-        _org = configuration.GetValue<string>("Distributors:Github:OrganizationName")!;
-        _proj = configuration.GetValue<string>("Distributors:Github:ProjectName")!;
-        _tag = configuration.GetValue<string>("Distributors:Github:TagName")!;
-    }
+    private readonly string _org = configuration.GetValue<string>("Distributors:Github:OrganizationName")!;
+    private readonly string _proj = configuration.GetValue<string>("Distributors:Github:ProjectName")!;
+    private readonly string _tag = configuration.GetValue<string>("Distributors:Github:TagName")!;
 
     private class GithubReleaseResponse
     {
@@ -47,21 +37,21 @@ public class GithubDistributor : IAppDistributor
 
     public async Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
     {
-        var template = await _emailTemplateProvider.GetTemplateAsync("GithubNightly", cancellationToken);
-        return await _emailService.SendMailToAsync(user.Email, "[HyPlayer] 内测申请成功",
+        var template = await emailTemplateProvider.GetTemplateAsync("GithubNightly", cancellationToken);
+        return await emailService.SendMailToAsync(user.Email, "[HyPlayer] 内测申请成功",
             template.Replace("{USERNAME}", user.UserName), cancellationToken: cancellationToken);
     }
 
     private async Task<GithubReleaseResponse?> GetReleaseResponse(CancellationToken cancellationToken = default)
     {
-        return await _httpClient.GetFromJsonAsync<GithubReleaseResponse?>(
+        return await httpClient.GetFromJsonAsync<GithubReleaseResponse?>(
             $"https://api.github.com/repos/{_org}/{_proj}/releases/tags/{_tag}", cancellationToken: cancellationToken);
     }
     
     public async Task<LatestApplicationUpdate?> GetLatestUpdateAsync(ChannelType channelType,
         CancellationToken cancellationToken = default)
     {
-        var response = await _hybridCache.GetOrCreateAsync($"GitHub_Nightly",
+        var response = await hybridCache.GetOrCreateAsync($"GitHub_Nightly",
             async token => await GetReleaseResponse(token),
             tags: ["release"],
             cancellationToken: cancellationToken);

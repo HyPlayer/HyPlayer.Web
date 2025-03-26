@@ -6,10 +6,16 @@ public class User
 {
     public Guid Id { get; set; }
 
+    [MaxLength(60)]
     public required string UserName { get; set; }
 
-    [EmailAddress] public required string Email { get; set; }
-    [EmailAddress] public required string Contact { get; set; }
+    [EmailAddress] 
+    [MaxLength(60)]
+    public required string Email { get; set; }
+    
+    [EmailAddress]
+    [MaxLength(60)]
+    public required string Contact { get; set; }
     
     public ChannelType ChannelType { get; set; }
     
@@ -23,6 +29,9 @@ public enum ChannelType
     StoreBeta,
     AppCenterCanary,
     AppCenterRelease,
-    GithubNightly
+    GithubNightly,
+    Canary,
+    Release,
+    Dogfood,
 }
 

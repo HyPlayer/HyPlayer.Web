@@ -54,7 +54,7 @@ public class AppCenterDistributor : IAppDistributor
     {
         [JsonPropertyName("version")] public required string? Version { get; set; }
 
-        [JsonPropertyName("uploaded_at")] public required DateTime UploadDate { get; set; }
+        [JsonPropertyName("uploaded_at")] public required DateTimeOffset UploadDate { get; set; }
 
         [JsonPropertyName("mandatory_update")] public required bool IsMandatory { get; set; }
 
@@ -97,7 +97,7 @@ public class AppCenterDistributor : IAppDistributor
         return new LatestApplicationUpdate
         {
             Version = latestReleaseInfo?.Version!,
-            Date = latestReleaseInfo?.UploadDate ?? DateTime.MinValue,
+            Date = latestReleaseInfo?.UploadDate ?? DateTimeOffset.MinValue,
             Mandatory = latestReleaseInfo?.IsMandatory ?? false,
             DownloadUrl = latestReleaseInfo?.DownloadUrl!,
             UpdateLog = latestReleaseInfo?.ReleaseNotes!,

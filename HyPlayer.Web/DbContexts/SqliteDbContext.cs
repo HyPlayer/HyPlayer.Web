@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HyPlayer.Web.DbContexts;
 
-public class SqliteDbContext : DbContext
+public class SqliteDbContext(DbContextOptions<SqliteDbContext> options) : DbContext(options)
 {
     public DbSet<User>? Users { get; set; }
-
-    public SqliteDbContext(DbContextOptions<SqliteDbContext> options) : base(options)
-    {
-        
-    }
+    public DbSet<Release>? Releases { get; set; }
 }

@@ -3,5 +3,5 @@
 public interface IEndpoint
 {
     public void ConfigureServices(IServiceCollection services);
-    public  void ConfigureEndpoint(WebApplication app);
+    public void ConfigureEndpoint(WebApplication app);
 }

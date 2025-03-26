@@ -4,26 +4,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HyPlayer.Web.Repositories;
 
-public class SqliteRepository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
+public class SqliteRepository<TEntity, TId>(SqliteDbContext dbContext) : IRepository<TEntity, TId>
+    where TEntity : class
 {
-    private readonly SqliteDbContext _dbContext;
-    private DbSet<TEntity> Table => _dbContext.Set<TEntity>();
-
-    public SqliteRepository(SqliteDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private DbSet<TEntity> Table => dbContext.Set<TEntity>();
 
     public async Task<bool> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await Table.AddAsync(entity, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 
     public async Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
-        return await Table.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
+        return await Table.FindAsync([id], cancellationToken: cancellationToken);
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -34,15 +29,15 @@ public class SqliteRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
     public async Task<bool> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         AttachIfNot(entity);
-        _dbContext.Entry(entity).State = EntityState.Modified;
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        dbContext.Entry(entity).State = EntityState.Modified;
+        await dbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 
     public async Task<bool> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         Table.Remove(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 
@@ -53,7 +48,7 @@ public class SqliteRepository<TEntity, TId> : IRepository<TEntity, TId> where TE
 
     private void AttachIfNot(TEntity entity)
     {
-        var entry = _dbContext.ChangeTracker.Entries()
+        var entry = dbContext.ChangeTracker.Entries()
             .FirstOrDefault(ent => ent.Entity == entity);
 
         if (entry != null)

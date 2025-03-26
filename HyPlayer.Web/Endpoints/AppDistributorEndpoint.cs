@@ -11,6 +11,7 @@ public class AppDistributorEndpoint : IEndpoint
         services.AddScoped<IAppDistributor, AppCenterDistributor>();
         services.AddScoped<IAppDistributor, MicrosoftStoreDistributor>();
         services.AddScoped<IAppDistributor, GithubDistributor>();
+        services.AddScoped<IAppDistributor, SelfHostDistributor>();
     }
 
     public void ConfigureEndpoint(WebApplication app)

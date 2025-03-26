@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Hybrid;
 using Serilog;
+using ZiggyCreatures.Caching.Fusion;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File($"{Environment.CurrentDirectory}/log/log.log", rollingInterval: RollingInterval.Day)
@@ -34,14 +35,11 @@ builder.Services.AddDbContext<SqliteDbContext>(optionsBuilder =>
         });
 });
 
-builder.Services.AddHybridCache(options =>
-{
-    options.DefaultEntryOptions = new HybridCacheEntryOptions
+builder.Services.AddFusionCache().WithDefaultEntryOptions(
+    option =>
     {
-        Expiration = TimeSpan.FromMinutes(10),
-        LocalCacheExpiration = TimeSpan.FromMinutes(10)
-    };
-});
+        option.Duration = TimeSpan.FromMinutes(1);
+    }).AsHybridCache();
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(SqliteRepository<,>));
 builder.Services.AddTransient<IEmailService, SmtpMailService>();
 builder.Services.AddSingleton<IAdminRepository, AdminConfigurationRepository>();
@@ -60,6 +58,14 @@ var app = builder.Build();
 #if DEBUG
 app.UseCors(policyBuilder => { policyBuilder.AllowAnyOrigin(); });
 #endif
+
+using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+var context = serviceScope.ServiceProvider.GetRequiredService<SqliteDbContext>();
+Directory.CreateDirectory("data");
+if (context.Database.GetMigrations().Any())
+    await context.Database.MigrateAsync();
+
+await context.Database.EnsureCreatedAsync();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

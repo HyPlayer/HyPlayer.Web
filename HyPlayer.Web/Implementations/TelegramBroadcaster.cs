@@ -7,29 +7,21 @@ using Telegram.Bot;
 
 namespace HyPlayer.Web.Implementations;
 
-public class TelegramBroadcaster : IUpdateBroadcaster, IDisposable
+public class TelegramBroadcaster(
+    IConfiguration configuration,
+    IEnumerable<IAppDistributor> appDistributors,
+    ILogger<TelegramBroadcaster> logger)
+    : IUpdateBroadcaster, IDisposable
 {
-    private readonly IEnumerable<IAppDistributor> _appDistributors;
-    private readonly HttpClient _httpClient;
-    private readonly TelegraphClient _telegraphClient;
-    private readonly TelegramBotClient _telegramBotClient;
-    private readonly ILogger<TelegramBroadcaster> _logger;
-
-    public TelegramBroadcaster(IConfiguration configuration, IEnumerable<IAppDistributor> appDistributors,
-        ILogger<TelegramBroadcaster> logger)
-    {
-        _appDistributors = appDistributors;
-        _logger = logger;
-        _telegraphClient = new TelegraphClient(configuration.GetValue<string>("Telegraph:AccessToken"));
-        _telegramBotClient = new TelegramBotClient(configuration.GetValue<string>("Telegram:BotToken")!);
-        _httpClient = new HttpClient();
-    }
+    private readonly HttpClient _httpClient = new();
+    private readonly TelegraphClient _telegraphClient = new(configuration.GetValue<string>("Telegraph:AccessToken"));
+    private readonly TelegramBotClient _telegramBotClient = new(configuration.GetValue<string>("Telegram:BotToken")!);
 
     public async Task<bool> BroadcastAsync(ChannelType type, List<User> users)
     {
         try
         {
-            var appDistributor = _appDistributors.FirstOrDefault(t => t.BindingChannels.Contains(type));
+            var appDistributor = appDistributors.FirstOrDefault(t => t.BindingChannels.Contains(type));
             if (appDistributor == null) throw new Exception("通道不存在");
             var update = await appDistributor.GetLatestUpdateAsync(type);
             if (update == null) throw new Exception("更新获取失败");
@@ -59,7 +51,7 @@ public class TelegramBroadcaster : IUpdateBroadcaster, IDisposable
         }
         catch (Exception e)
         {
-            _logger.LogWarning(e, "广播到 Telegram 发生错误");
+            logger.LogWarning(e, "广播到 Telegram 发生错误");
             return false;
         }
     }
