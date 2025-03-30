@@ -21,13 +21,13 @@ public class ChannelEndpoint : IEndpoint
     private static async Task<IResult> BroadcastUpdate(ChannelType channel,
         IEnumerable<IUpdateBroadcaster> broadcasters,
         IRepository<User, Guid> repository,
-        HybridCache _hybridCache,
+        HybridCache hybridCache,
         IConfiguration configuration,
         string authKey)
     {
         if (configuration.GetValue<string>("PipelineAuthKey") != authKey)
             return Results.Problem("授权密钥有误", statusCode: 403);
-        await _hybridCache.RemoveByTagAsync("release");
+        await hybridCache.RemoveByTagAsync("release");
         foreach (var updateBroadcaster in broadcasters.ToList())
         {
             await updateBroadcaster.BroadcastAsync(channel,

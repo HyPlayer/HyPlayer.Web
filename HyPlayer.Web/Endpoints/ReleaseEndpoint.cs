@@ -23,7 +23,7 @@ public class ReleaseEndpoint : IEndpoint
         CancellationToken cancellationToken, [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var releases = (await repository.GetQueryableEntitiesAsync(cancellationToken))
-            .OrderByDescending(t => t.ReleaseDate).Skip(limit).Take(10);
+            .OrderByDescending(t => t.ReleaseDate).Skip(limit).Take(10).ToArray();
         return Results.Ok(releases);
     }
     
