@@ -7,7 +7,6 @@ namespace HyPlayer.Web.AppDistributors;
 public class SelfHostDistributor(IRepository<Release, Guid> releasesRepository) : IAppDistributor
 {
     public string Name => "SelfHost";
-    private readonly IRepository<Release, Guid> _releasesRepository = releasesRepository;
 
     public List<ChannelType> BindingChannels => [ChannelType.Canary, ChannelType.Release, ChannelType.Dogfood];
 
@@ -28,7 +27,7 @@ public class SelfHostDistributor(IRepository<Release, Guid> releasesRepository) 
             Version = release.Version,
             Date = release.ReleaseDate,
             Mandatory = false,
-            DownloadUrl = null,
+            DownloadUrl = release.DownloadUrl,
             UpdateLog = release.ReleaseNotes,
             Size = 0
         };

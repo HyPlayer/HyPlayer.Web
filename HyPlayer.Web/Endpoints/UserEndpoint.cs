@@ -79,12 +79,17 @@ public class UserEndpoint : IEndpoint
         IEmailTemplateProvider templateProvider,
         CancellationToken cancellationToken)
     {
+        var channelType = request.ChannelType;
+        if (channelType is ChannelType.AppCenterCanary)
+            channelType = ChannelType.Canary;
+        if (channelType is ChannelType.AppCenterRelease)
+            channelType = ChannelType.Release;
         var newUser = new User
         {
             Id = Guid.NewGuid(),
             UserName = request.UserName!,
             Email = request.Email!,
-            ChannelType = request.ChannelType,
+            ChannelType = channelType,
             Contact = request.Contact!,
             Subscribe = request.SubscribeUpdates
         };
