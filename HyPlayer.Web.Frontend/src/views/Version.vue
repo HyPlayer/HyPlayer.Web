@@ -66,6 +66,12 @@ export default defineComponent({
           return "App Center (Release)"
         case '4':
           return "Github Nightly"
+	case '5':
+	  return "Canary"
+	case '6':
+	  return "Release"
+	case '7':
+	  return "Dogfood"
       }
     }
   },
@@ -77,7 +83,7 @@ export default defineComponent({
       window.location.href = "https://install.appcenter.ms/users/kengwang/apps/hyplayer/distribution_groups/base%20packages"
     },
     downloadFull() {
-      window.location.href = "https://www.123pan.com/s/sfDzVv-pbnB.html"
+      window.location.href = "https://hyplayer-file.kengwang.com.cn/full/%E5%AE%8C%E6%95%B4%E5%8C%85_latest.zip"
     }
   },
   mounted() {
