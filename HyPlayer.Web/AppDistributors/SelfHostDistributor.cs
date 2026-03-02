@@ -8,7 +8,7 @@ public class SelfHostDistributor(IRepository<Release, Guid> releasesRepository) 
 {
     public string Name => "SelfHost";
 
-    public List<ChannelType> BindingChannels => [ChannelType.Canary, ChannelType.Release, ChannelType.Dogfood];
+    public List<ChannelType> BindingChannels => [ChannelType.Canary, ChannelType.Release];
 
     public async Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
     {

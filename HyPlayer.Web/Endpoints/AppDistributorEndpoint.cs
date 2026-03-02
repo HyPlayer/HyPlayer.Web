@@ -8,7 +8,6 @@ public class AppDistributorEndpoint : IEndpoint
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<IAppDistributor, AppCenterDistributor>();
         services.AddScoped<IAppDistributor, MicrosoftStoreDistributor>();
         services.AddScoped<IAppDistributor, GithubDistributor>();
         services.AddScoped<IAppDistributor, SelfHostDistributor>();

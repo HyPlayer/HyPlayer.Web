@@ -80,10 +80,6 @@ public class UserEndpoint : IEndpoint
         CancellationToken cancellationToken)
     {
         var channelType = request.ChannelType;
-        if (channelType is ChannelType.AppCenterCanary)
-            channelType = ChannelType.Canary;
-        if (channelType is ChannelType.AppCenterRelease)
-            channelType = ChannelType.Release;
         var newUser = new User
         {
             Id = Guid.NewGuid(),

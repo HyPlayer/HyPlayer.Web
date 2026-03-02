@@ -20,7 +20,6 @@
             <v-md-preview :text="update.updateLog"></v-md-preview>
             <el-button type="primary" @click="download" class="hy-download-btn">下载版本包</el-button>
             <el-button type="primary" @click="downloadFull" class="hy-download-btn">下载完整包 (新手推荐)</el-button>
-            <el-button type="primary" @click="downloadBasic" class="hy-download-btn">下载基础包</el-button>
             <el-alert
                 title="温馨提示"
                 type="success"
@@ -61,26 +60,17 @@ export default defineComponent({
         case '1':
           return "Microsoft Store (Beta 通道)"
         case '2':
-          return "App Center (Canary)"
+          return "Canary"
         case '3':
-          return "App Center (Release)"
+          return "Release"
         case '4':
-          return "Github Nightly"
-	case '5':
-	  return "Canary"
-	case '6':
-	  return "Release"
-	case '7':
-	  return "Dogfood"
+          return "Countinous Integration"
       }
     }
   },
   methods: {
     download() {
       window.location.href = this.update.url
-    },
-    downloadBasic() {
-      window.location.href = "https://install.appcenter.ms/users/kengwang/apps/hyplayer/distribution_groups/base%20packages"
     },
     downloadFull() {
       window.location.href = "https://hyplayer-file.kengwang.com.cn/full/%E5%AE%8C%E6%95%B4%E5%8C%85_latest.zip"

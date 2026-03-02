@@ -27,11 +27,8 @@ public enum ChannelType
 {
     StoreRelease,
     StoreBeta,
-    AppCenterCanary,
-    AppCenterRelease,
-    GithubNightly,
     Canary,
     Release,
-    Dogfood,
+    CI
 }
 

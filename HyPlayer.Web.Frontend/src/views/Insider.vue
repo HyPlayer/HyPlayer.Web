@@ -50,7 +50,7 @@ export default defineComponent({
             username: '',
             email: '',
             contact: '',
-            channel: 5,
+            channel: 2,
             subscribe: true
         },
         options: [
@@ -66,31 +66,16 @@ export default defineComponent({
             },
             {
                 value: 2,
-                label: 'App Center (Canary)',
-                disabled: true
+                label: 'Canary',
             },
             {
                 value: 3,
-                label: 'App Center (Release)',
-                disabled: true
+                label: 'Release',
             },
             {
                 value: 4,
-                label: 'Github Nightly',
-                disabled: true
-            },
-            {
-                value: 5,
-                label: 'Canary'
-            },
-            {
-                value: 6,
-                label: 'Release'
-            },
-            {
-                value: 7,
-                label: 'Dogfood'
-            },
+                label: 'Countinous Integration',
+            }
         ]
     }),
     methods: {

@@ -46,10 +46,6 @@ public class ChannelEndpoint : IEndpoint
     {
         var user = await repository.GetByIdAsync(userId, cancellationToken);
         if (user?.ChannelType != channel) return Results.Problem("用户不存在或未订阅此通道", statusCode: 403);
-        if (channel is ChannelType.AppCenterCanary)
-            channel = ChannelType.Canary;
-        if (channel is ChannelType.AppCenterRelease)
-            channel = ChannelType.Release;
         var appDistributor = appDistributors.FirstOrDefault(t => t.BindingChannels.Contains(channel));
         if (appDistributor == null)
             return Results.NotFound("通道未知");
@@ -61,10 +57,6 @@ public class ChannelEndpoint : IEndpoint
         IEnumerable<IAppDistributor> appDistributors,
         CancellationToken cancellationToken)
     {
-        if (channel is ChannelType.AppCenterCanary)
-            channel = ChannelType.Canary;
-        if (channel is ChannelType.AppCenterRelease)
-            channel = ChannelType.Release;
         var appDistributor = appDistributors.FirstOrDefault(t => t.BindingChannels.Contains(channel));
         if (appDistributor == null)
             return Results.NotFound("通道不存在");

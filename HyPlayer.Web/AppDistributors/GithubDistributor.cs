@@ -33,7 +33,7 @@ public class GithubDistributor(
     }
 
     public string Name => "Github";
-    public List<ChannelType> BindingChannels => new() { ChannelType.GithubNightly };
+    public List<ChannelType> BindingChannels => new() { ChannelType.CI };
 
     public async Task<bool> AddDistributionMemberAsync(User user, CancellationToken cancellationToken = default)
     {

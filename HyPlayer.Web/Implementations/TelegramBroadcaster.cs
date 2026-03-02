@@ -46,7 +46,7 @@ public class TelegramBroadcaster(
             });
 
             // Send Telegram Message
-            await _telegramBotClient.SendTextMessageAsync("@hyplayer", page.Url);
+            await _telegramBotClient.SendMessage("@hyplayer", page.Url);
             return true;
         }
         catch (Exception e)

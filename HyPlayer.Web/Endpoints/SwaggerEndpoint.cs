@@ -1,5 +1,4 @@
 ﻿using HyPlayer.Web.Interfaces;
-using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 
 namespace HyPlayer.Web.Endpoints;
