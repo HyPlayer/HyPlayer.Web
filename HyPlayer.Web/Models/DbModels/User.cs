@@ -22,7 +22,6 @@ public class User
     public bool Subscribe { get; set; }
 }
 
-[Flags]
 public enum ChannelType
 {
     StoreRelease,
